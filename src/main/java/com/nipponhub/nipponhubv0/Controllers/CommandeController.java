@@ -3,8 +3,7 @@ package com.nipponhub.nipponhubv0.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.nipponhub.nipponhubv0.DTO.CommandeDto;
@@ -33,10 +32,10 @@ public class CommandeController {
     @PostMapping("/new")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<CommandeDto> placeCommande(
-            @RequestBody CommandeDto request,
-            @AuthenticationPrincipal UserDetails user) {
+            @RequestBody CommandeDto request) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.status(201)
-                .body(commandeService.placeCommande(request, user.getUsername()));
+                .body(commandeService.placeCommande(request, username));
     }
 
     /**
@@ -45,9 +44,9 @@ public class CommandeController {
      */
     @GetMapping("/my-orders")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<CommandeDto>> getMyOrders(
-            @AuthenticationPrincipal UserDetails user) {
-        return ResponseEntity.ok(commandeService.getMyOrders(user.getUsername()));
+    public ResponseEntity<List<CommandeDto>> getMyOrders() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(commandeService.getMyOrders(username));
     }
 
     /**
@@ -56,10 +55,9 @@ public class CommandeController {
      */
     @GetMapping("/my-orders/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<CommandeDto> getMyOrder(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails user) {
-        return ResponseEntity.ok(commandeService.getMyOrderById(id, user.getUsername()));
+    public ResponseEntity<CommandeDto> getMyOrder(@PathVariable Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(commandeService.getMyOrderById(id, username));
     }
 
     // ══════════════════════════════════════════════════════════════════════
@@ -104,9 +102,9 @@ public class CommandeController {
     @PreAuthorize("hasAnyRole('ADMIN', 'OWNER')")
     public ResponseEntity<CommandeDto> updateStatus(
             @PathVariable Long id,
-            @RequestParam CommandeStatus status,
-            @AuthenticationPrincipal UserDetails user) {
-        return ResponseEntity.ok(commandeService.updateStatus(id, status, user.getUsername()));
+            @RequestParam CommandeStatus status) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(commandeService.updateStatus(id, status, username));
     }
 
     /**
@@ -116,11 +114,10 @@ public class CommandeController {
      */
     @PutMapping("/{id}/deliver")
     @PreAuthorize("hasAnyRole('ADMIN', 'OWNER')")
-    public ResponseEntity<CommandeDto> deliver(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails user) {
+    public ResponseEntity<CommandeDto> deliver(@PathVariable Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(
-                commandeService.updateStatus(id, CommandeStatus.DELIVERED, user.getUsername()));
+                commandeService.updateStatus(id, CommandeStatus.DELIVERED, username));
     }
 
     /**
@@ -129,11 +126,10 @@ public class CommandeController {
      */
     @PutMapping("/{id}/confirm")
     @PreAuthorize("hasAnyRole('ADMIN', 'OWNER')")
-    public ResponseEntity<CommandeDto> confirm(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails user) {
+    public ResponseEntity<CommandeDto> confirm(@PathVariable Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(
-                commandeService.updateStatus(id, CommandeStatus.CONFIRMED, user.getUsername()));
+                commandeService.updateStatus(id, CommandeStatus.CONFIRMED, username));
     }
 
     /**
@@ -142,11 +138,10 @@ public class CommandeController {
      */
     @PutMapping("/{id}/cancel")
     @PreAuthorize("hasAnyRole('ADMIN', 'OWNER')")
-    public ResponseEntity<CommandeDto> cancel(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails user) {
+    public ResponseEntity<CommandeDto> cancel(@PathVariable Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(
-                commandeService.updateStatus(id, CommandeStatus.CANCELLED, user.getUsername()));
+                commandeService.updateStatus(id, CommandeStatus.CANCELLED, username));
     }
 }
 
