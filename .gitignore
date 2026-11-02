@@ -1,6 +1,15 @@
-sql
+# secrets
+.env
+.env.*
+!.env.example
+# build / deps
+target/
+node_modules/
+.next/
 logs/
-
-.mvn
-
-.vscode
+*.log
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+.m2/repository/
