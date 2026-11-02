@@ -1,1 +1,0 @@
-# NipponHub-BackEnd-Application
