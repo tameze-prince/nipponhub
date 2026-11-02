@@ -6,7 +6,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-7.0.5-6DB33F?logo=spring-boot)](https://spring.io/projects/spring-boot)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2.4-000000?logo=next.js)](https://nextjs.org)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org)
-[![License](https://img.shields.io/badge/License-Proprietary-red)](#)
+[![License](https://img.shields.io/badge/License-MIT-green)](#)
 
 ---
 
@@ -401,7 +401,7 @@ docker-compose up -d
 
 ## 📝 License
 
-Proprietary - Tous droits réservés © 2026 NipponHub
+MIT — voir [LICENSE](../LICENSE)
 
 ---
 
